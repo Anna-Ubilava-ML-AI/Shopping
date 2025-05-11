@@ -66,12 +66,11 @@ def load_data(filename):
 
     evidence = []
     labels = []
-
+    
     with open(filename) as f:
         reader = csv.DictReader(f)
         for row in reader:
-            # Convert evidence
-            sample = [
+            evidence.append([
                 int(row["Administrative"]),
                 float(row["Administrative_Duration"]),
                 int(row["Informational"]),
@@ -82,17 +81,15 @@ def load_data(filename):
                 float(row["ExitRates"]),
                 float(row["PageValues"]),
                 float(row["SpecialDay"]),
-                month_map[row["Month"][:3]],
+                month_map[row["Month"]],
                 int(row["OperatingSystems"]),
                 int(row["Browser"]),
                 int(row["Region"]),
                 int(row["TrafficType"]),
                 1 if row["VisitorType"] == "Returning_Visitor" else 0,
                 1 if row["Weekend"] == "TRUE" else 0
-            ]
-            evidence.append(sample)
+            ])
 
-            # Convert label
             labels.append(1 if row["Revenue"] == "TRUE" else 0)
 
     return (evidence, labels)
